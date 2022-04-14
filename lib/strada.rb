@@ -13,7 +13,7 @@ class NoName < ConfigError; end
 class UnknownOption < ConfigError; end
 
 # @example common use case
-#   CFGS = Asetus.new :name=>'my_sweet_program' :load=>false   # do not load config from filesystem
+#   CFGS = Strada.new :name=>'my_sweet_program' :load=>false   # do not load config from filesystem
 #   CFGS.default.ssh.port      = 22
 #   CFGS.default.ssh.hosts     = %w(host1.example.com host2.example.com)
 #   CFGS.default.auth.user     = lana
@@ -72,7 +72,7 @@ class Strada
 
   # @example create user config from default config and raise error, if no config was found
   #   raise StandardError, 'edit ~/.config/name/config' if strada.create
-  # @param [Hash] opts options for Asetus
+  # @param [Hash] opts options for Strada
   # @option opts [Symbol]  :source       source to use for settings to save, by default :default
   # @option opts [Symbol]  :destination  destination to use for settings to save, by default :user
   # @option opts [boolean] :load         load config once saved, by default false
@@ -94,7 +94,7 @@ class Strada
 
   private
     def initialize(opts = {})
-      # @param [Hash] opts options for Asetus.new
+      # @param [Hash] opts options for Strada.new
       # @option opts [String]  :name     name to use for strada (/etc/name/, ~/.config/name/) - autodetected if not defined
       # @option opts [String]  :adapter  adapter to use 'yaml', 'json' or 'toml' for now
       # @option opts [String]  :usr_dir   directory for storing user config ~/.config/name/ by default

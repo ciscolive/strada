@@ -1,17 +1,17 @@
-# MojoConfig
+# Strada
 Configuration library for ruby with YAML/JSON/TOML backends with unified object
 access
 
 ## Install
 ```
- % gem install MojoConfig
+ % gem install Strada
 ```
 
 ## Use
 ### Simple
 ```
-require 'MojoConfig'
-cfg  = MojoConfig.cfg
+require 'Strada'
+cfg  = Strada.cfg
 port = cfg.server.port
 user = cfg.auth.user
 pw   = cfg.auth.password
@@ -23,25 +23,25 @@ them together.
 
 ### Advanced
 ```
-require 'MojoConfig'
-MojoConfig = MojoConfig.new name:    'mykewlapp',
+require 'Strada'
+Strada = Strada.new name:    'mykewlapp',
                     default: {'poop'=>'xyzzy'},
                     adapter: 'yaml',
                     usrdir:  '/home/app/config/',
                     sysdir:  '/System/config/',
                     load:    false
-MojoConfig.default.poop2 = [1, 2, 3, 4]
-MojoConfig.default.starship.poopers = 42
-MojoConfig.load :user
-if MojoConfig.user.empty?
-  MojoConfig.user = MojoConfig.default
-  MojoConfig.save :user
+Strada.default.poop2 = [1, 2, 3, 4]
+Strada.default.starship.poopers = 42
+Strada.load :user
+if Strada.user.empty?
+  Strada.user = Strada.default
+  Strada.save :user
 end
-MojoConfig.load    # load+merges cfg, takes argument :default, :system, :user
-MojoConfig.cfg     # merged default + system + user  (merged on load)
-MojoConfig.default # default only
-MojoConfig.system  # system only
-MojoConfig.user    # user only
+Strada.load    # load+merges cfg, takes argument :default, :system, :user
+Strada.cfg     # merged default + system + user  (merged on load)
+Strada.default # default only
+Strada.system  # system only
+Strada.user    # user only
 ```
 
 ## Reserved methods

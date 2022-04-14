@@ -6,11 +6,11 @@ require_relative "strada/adapter/json"
 require_relative "strada/adapter/toml"
 require "fileutils"
 
-class Strada < StandardError; end
+class StradaError < StandardError; end
 
-class NoName < ConfigError; end
+class NoName < StradaError; end
 
-class UnknownOption < ConfigError; end
+class UnknownOption < StradaError; end
 
 # @example common use case
 #   CFGS = Strada.new :name=>'my_sweet_program' :load=>false   # do not load config from filesystem

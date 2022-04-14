@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.licenses     = ["MIT"]
   s.platform     = Gem::Platform::RUBY
   s.authors      = ["WENWU.YAN"]
-  s.email        = %w( 968826@gmail.com )
+  s.email        = "968826@gmail.com"
   s.homepage     = "http://github.com/ciscolive/strada"
   s.summary      = "configuration library"
   s.description  = "configuration library with object access to YAML/JSON/TOML backends"

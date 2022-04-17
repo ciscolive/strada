@@ -123,9 +123,29 @@ class Strada
     no_config
   end
 
+  # 将 JSON|YAML|TOML 等数据格式转换为 RUBY 数据结构
+  def from(adapter, config)
+    name = "from_" + adapter
+    send name, config
+  end
+
+  # 将 RUBY 数据结构转换为 JSON|YAML|TOML 对象
+  def to(adapter, config)
+    name = "to_" + adapter
+    send name, config
+  end
+
+  # 基础的配置标致名称
+  def meta_name
+    path = caller_locations[-1].path
+    File.basename path, File.extname(path)
+  rescue
+    raise NoName, "can't figure out name, specify explicitly"
+  end
+
   private
-    # 加载配置文件
     def load_cfg(dir)
+      # 加载配置文件
       @file = File.join dir, @cfg_file
       file  = File.read @file
       ConfigStruct.new(from(@adapter, file), key_to_s: @key_to_s)
@@ -152,26 +172,6 @@ class Strada
       end
       # 将合并后的 HASH 数据结构转换为配置对象
       ConfigStruct.new hash
-    end
-
-    # 将 JSON|YAML|TOML 等数据格式转换为 RUBY 数据结构
-    def from(adapter, string)
-      name = "from_" + adapter
-      send name, string
-    end
-
-    # 将 RUBY 数据结构转换为 JSON|YAML|TOML 对象
-    def to(adapter, config)
-      name = "to_" + adapter
-      send name, config
-    end
-
-    # 基础的配置标致名称
-    def meta_name
-      path = caller_locations[-1].path
-      File.basename path, File.extname(path)
-    rescue
-      raise NoName, "can't figure out name, specify explicitly"
     end
 end
 

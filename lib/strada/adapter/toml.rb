@@ -13,14 +13,14 @@ class Strada
     class TOML
       # 定义类方法
       class << self
-        require "toml"
-
         # 将 RUBY(HASH) 数据结构转换为 TOML
         def to(hash)
+          require "toml"
           ::TOML::Generator.new(hash).body
         end
         # 将 TOML 转换为 RUBY 数据结构
         def from(toml)
+          require "toml"
           ::TOML.load toml
         end
       end

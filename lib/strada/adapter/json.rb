@@ -13,13 +13,14 @@ class Strada
     class JSON
       # 定义类方法
       class << self
-        require "json"
         # 将 RUBY(HASH) 数据结构转换为 JSON
         def to(hash)
+          require "json"
           ::JSON.pretty_generate hash
         end
         # 将 JSON 转换为 RUBY 数据结构
         def from(json)
+          require "json"
           ::JSON.load json
         end
       end

@@ -12,6 +12,5 @@ Gem::Specification.new do |s|
   s.summary      = "configuration library"
   s.description  = "configuration library with object access to YAML/JSON/TOML backends"
   s.files        = `git ls-files`.split("\n")
-  s.executables  = %w(  )
   s.require_path = "lib"
 end

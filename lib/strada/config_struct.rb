@@ -2,6 +2,39 @@
 
 class Strada
   class ConfigStruct
+    # 类对象初始化函数入口
+    def initialize(hash = nil, opts = {})
+      @key_to_s = opts.delete(:key_to_s) || false
+      @cfg      = hash ? _config_from_hash(hash) : {}
+    end
+
+    # 方法反射
+    def method_missing(name, *args, &block)
+      name = name.to_s
+      # 检索 ConfigStruct 键值对
+      # strada.cfg['foo']
+      name = args.shift if name[0..1] == "[]"
+      arg  = args.first
+
+      if name[-1..-1] == "?"
+        # 查询是否包含某个 KEY
+        # strada.cfg.foo.bar?
+        if @cfg.has_key? name[0..-2]
+          @cfg[name[0..-2]]
+        else
+          nil
+        end
+      elsif name[-1..-1] == "="
+        # strada.cfg.foo.bar = 'bala'
+        # ConfigStruct 键值对赋值
+        _config_set name[0..-2], arg
+      else
+        # strada.cfg.foo.bar
+        # ConfigStruct 查询某个属性
+        _config_get name, arg
+      end
+    end
+
     # 将配置信息转换为 HASH 对象
     def _config_to_hash
       hash = {}
@@ -9,7 +42,9 @@ class Strada
         if value.class == ConfigStruct
           value = value._config_to_hash
         end
-        key       = key.to_s if @key_to_s
+        # 是否需要将 key 转为 to_s
+        key = key.to_s if @key_to_s
+        # 保存键值对数据到 HASH
         hash[key] = value
       end
       hash
@@ -36,37 +71,13 @@ class Strada
     end
 
     private
-      def initialize(hash = nil, opts = {})
-        @key_to_s = opts.delete :key_to_s
-        @cfg      = hash ? _config_from_hash(hash) : {}
-      end
-
-      # 方法反射
-      def method_missing(name, *args, &block)
-        name = name.to_s
-        name = args.shift if name[0..1] == "[]" # strada.cfg['foo']
-        arg  = args.first
-
-        if name[-1..-1] == "?" # strada.cfg.foo.bar?
-          if @cfg.has_key? name[0..-2]
-            @cfg[name[0..-2]]
-          else
-            nil
-          end
-        elsif name[-1..-1] == "=" # strada.cfg.foo.bar = 'quux'
-          _config_set name[0..-2], arg
-        else
-          _config_get name, arg # strada.cfg.foo.bar
-        end
-      end
-
-      # 设置键值对
       def _config_set(key, value)
+        # 设置键值对
         @cfg[key] = value
       end
 
-      # 查询 KEY VALUE
       def _config_get(key, value)
+        # 查询 KEY VALUE
         if @cfg.has_key? key
           @cfg[key]
         else
@@ -74,8 +85,8 @@ class Strada
         end
       end
 
-      # 转换 HASH 数据为配置对象
       def _config_from_hash(hash)
+        # 转换 HASH 数据为配置对象
         cfg = {}
         hash.each do |key, value|
           if value.class == Hash

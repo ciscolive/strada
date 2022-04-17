@@ -13,14 +13,14 @@ class Strada
     class YAML
       # 定义类方法
       class << self
-        require "yaml"
-
         # 将 RUBY(HASH) 数据结构转换为 YAML
         def to(hash)
+          require "yaml"
           ::YAML.dump hash
         end
         # 将 YAML 转换为 RUBY(HASH) 数据结构
         def from(yaml)
+          require "yaml"
           ::YAML.load yaml
         end
       end
